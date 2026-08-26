@@ -7,15 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # --------------------------------------------------
 # OpenCV
-# --------------------------------------------------
-
-set(OpenCV_DIR
-    "${PROJECT_SOURCE_DIR}/external/opencv/build"
-)
+set(OpenCV_DIR "${PROJECT_SOURCE_DIR}/external/opencv/build")
 
 find_package(OpenCV REQUIRED COMPONENTS
     core
     imgproc
+    highgui
+    videoio
 )
 
 # --------------------------------------------------

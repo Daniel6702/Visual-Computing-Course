@@ -1,19 +1,31 @@
 #include <iostream>
 
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
+#include "opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+using namespace cv;
 
-int main()
+int main(int, char**)
 {
-    cv::Mat image(100, 100, CV_8UC3, cv::Scalar(0, 0, 255));
+    VideoCapture cap(0);
+    if(!cap.isOpened()) return -1;
+    Mat frame;
+    namedWindow("Camera", WINDOW_AUTOSIZE);
 
-    cv::Mat blurred;
-    cv::GaussianBlur(image, blurred, cv::Size(5, 5), 0);
+    //print size
+    cap >> frame;
+    std::cout << "Cols: " << frame.cols << ", Rows: " << frame.rows 
+        << ", Size: " << frame.size 
+        << ", Channels: " << frame.channels() 
+        << "\n";
 
-    std::cout << "OpenCV works!\n";
-    std::cout << "Image size: "
-              << blurred.cols << "x"
-              << blurred.rows << '\n';
-
+    for(;;)
+    {
+        cap >> frame;
+        //cvtColor(frame, edges, COLOR_BGR2GRAY);
+        //GaussianBlur(edges, edges, Size(7,7), 1.5, 1.5);
+        //Canny(edges, edges, 0, 30, 3);
+        imshow("Camera", frame);
+        if(waitKey(30) >= 0) break;
+    }
     return 0;
 }

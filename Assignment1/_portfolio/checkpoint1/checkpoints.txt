@@ -1,0 +1,7 @@
+Checkpoint 1:
+
+Most of the work for this checkpoint was setting up the development environment and getting OpenCV to build and link correctly. 
+I used CMake to manage the project and dependencies, so the setup is ready for further development.
+
+The implementation itself was fairly simple and mostly followed the OpenCV webcam example. 
+I captured and displayed the live webcam stream and checked basic image properties such as width, height, and number of channels.
