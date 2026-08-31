@@ -7,11 +7,13 @@
 using namespace cv;
 
 Mat show_edges(Mat input) {
-    Mat kernel2D = (cv::Mat_<float>(3, 3) <<
-        0, 1, 0,
-        1, -4, 1,
-        0, 1, 0
-    );
+
+    float data[3][3] = { //Sharpening / edge kernel. 2. derivative 
+        {0, 1, 0},
+        {1, -4, 1},
+        {0, 1, 0}
+    };
+    Mat kernel2D(3, 3, CV_32F, data); 
 
     Mat gray = grayscale(input);
 
