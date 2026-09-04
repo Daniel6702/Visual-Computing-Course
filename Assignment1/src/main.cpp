@@ -12,6 +12,9 @@ int main(int, char**)
     if(!cap.isOpened()) return -1;
     Mat frame;
     namedWindow("Camera", WINDOW_AUTOSIZE);
+
+    int current_image = 0;
+
     for(;;)
     {
         cap >> frame;
@@ -20,16 +23,30 @@ int main(int, char**)
         Mat blur = gaussian_blur(frame);
         Mat edge = show_edges(frame);
 
+        /*
         //combine the images into a 2x2 grid
+
         Mat gray_color, edge_color;
         cvtColor(gray, gray_color, COLOR_GRAY2BGR);
         cvtColor(edge, edge_color, COLOR_GRAY2BGR);
+        
         Mat top, bottom, combined;
         hconcat(frame, blur, top);
         hconcat(gray_color, edge_color, bottom);
         vconcat(top, bottom, combined);
+        */
 
-        imshow("Camera", combined);
+        Mat images[] = {frame, gray, blur, edge};
+
+        if (waitKey(30) == 'a') {
+            current_image += 1;
+            if (current_image>3) {
+                current_image = 0;
+            }
+        } 
+
+        imshow("Camera", images[current_image]);
+
         if(waitKey(30) >= 0) break;
     }
 }

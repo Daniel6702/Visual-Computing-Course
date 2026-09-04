@@ -3,7 +3,6 @@
 #include "filters/grayscale.hpp"
 #include "filters/gaussian_blur.hpp"
 
-
 using namespace cv;
 
 Mat show_edges(Mat input) {

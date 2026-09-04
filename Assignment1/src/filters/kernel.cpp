@@ -1,6 +1,7 @@
 #include "filters/kernel.hpp"
 
 using namespace cv;
+using namespace std;
 
 /*
 Add different stride support
@@ -71,7 +72,7 @@ Mat apply_kernel2D(Mat input, Mat kernel2D) {
 
     else if (channels == 3) {
 
-        std::vector<Mat> color_channels;
+        vector<Mat> color_channels;
 
         split(input, color_channels); //split the image in to its color channels
 
