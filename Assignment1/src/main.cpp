@@ -2,69 +2,88 @@
 
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
-using namespace cv;
+#include "opencv2/calib3d.hpp"
+#include <cmath>
 
 #include "filters.hpp"
+#include "transformations.hpp"
+#include "projection.hpp"
 
-int main(int, char**)
+using namespace cv;
+using namespace std;
+
+vector<Point3f> get_cube_vertices() {
+    vector<Point3f> cube = {
+        {-1,-1,0},
+        { 1,-1,0},
+        { 1, 1,0},
+        {-1, 1,0},
+
+        {-1,-1,2},
+        { 1,-1,2},
+        { 1, 1,2},
+        {-1, 1,2}
+    };
+    return cube;
+}
+
+int main()
 {
     VideoCapture cap(0);
     if(!cap.isOpened()) return -1;
+
     Mat frame;
     namedWindow("Camera", WINDOW_AUTOSIZE);
 
-    int current_image = 0;
+    vector<Point3f> cube_points = get_cube_vertices();
+
+    cube_points = translate(cube_points, -1, 0, 6);
+
+    Point3f light_source(0, 0, 0);
+
+    float t = 0.0;
 
     for(;;)
     {
         cap >> frame;
 
-        Mat gray = grayscale(frame);
-        Mat blur = gaussian_blur(frame);
-        Mat edge = show_edges(frame);
+        t += 0.05;
 
-        /*
-        //combine the images into a 2x2 grid
+        cube_points = rotate(cube_points,0.04,-0.06,0.0);
 
-        Mat gray_color, edge_color;
-        cvtColor(gray, gray_color, COLOR_GRAY2BGR);
-        cvtColor(edge, edge_color, COLOR_GRAY2BGR);
-        
-        Mat top, bottom, combined;
-        hconcat(frame, blur, top);
-        hconcat(gray_color, edge_color, bottom);
-        vconcat(top, bottom, combined);
-        */
+        cube_points = translate(
+            cube_points,
+            sin(t) * 0.05f,
+            sin(t + 2 * CV_PI / 3) * 0.05f,
+            sin(t + 4 * CV_PI / 3) * 0.1f
+        );
 
-        Mat images[] = {frame, gray, blur, edge};
+        Matx33d K = get_camera_matrix(frame);
 
-        if (waitKey(30) == 'a') {
-            current_image += 1;
-            if (current_image>3) {
-                current_image = 0;
-            }
-        } 
+        vector<Point2f> projected = project(cube_points, K);
 
-        imshow("Camera", images[current_image]);
+        int edges[][2] = {
+            {0,1},{1,2},{2,3},{3,0},
+            {4,5},{5,6},{6,7},{7,4},
+            {0,4},{1,5},{2,6},{3,7}
+        };
+
+        for (int i = 0; i < size(edges); i++) {
+            //get the indexes of the points
+            int a = edges[i][0];
+            int b = edges[i][1];
+            //get the position of the points
+            Point A(projected[a]);
+            Point B(projected[b]);
+            //define style
+            Scalar color(0,255,0);
+            int thickness = 2;
+            //draw line between points
+            line(frame,A,B,color,thickness);
+        }
+
+        imshow("Camera", frame);
 
         if(waitKey(30) >= 0) break;
     }
 }
-
-
-
-
-
-
-
-    //print size
-    /*
-    cap >> frame;
-    std::cout
-        << "Size: " << frame.size 
-        << ", Channels: " << frame.channels() 
-        << "\n";
-              //cvtColor(frame, edges, COLOR_BGR2GRAY);
-        //GaussianBlur(edges, edges, Size(7,7), 1.5, 1.5);
-        //Canny(edges, edges, 0, 30, 3);
-    */

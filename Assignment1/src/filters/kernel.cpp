@@ -1,4 +1,4 @@
-#include "filters/kernel.hpp"
+#include "filters.hpp"
 
 using namespace cv;
 using namespace std;
@@ -59,7 +59,7 @@ Mat __apply_kernel2D_to_channel(Mat input, Mat kernel2D) {
             result.at<uint8_t>(row, col) = new_value; //insert the new value in the result
         }
     }
-
+    
     return result;
 }
 
