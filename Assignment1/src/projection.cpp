@@ -1,5 +1,20 @@
 #include "projection.hpp"
 
+vector<Point3f> get_cube_vertices() {
+    vector<Point3f> cube = {
+        {-1,-1,0},
+        { 1,-1,0},
+        { 1, 1,0},
+        {-1, 1,0},
+
+        {-1,-1,2},
+        { 1,-1,2},
+        { 1, 1,2},
+        {-1, 1,2}
+    };
+    return cube;
+}
+
 Matx33d get_camera_matrix(Mat frame) {
     //Define camera matrix: for projection of 3D points onto 2D plane
     int width = frame.cols;

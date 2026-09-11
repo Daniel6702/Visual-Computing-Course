@@ -1,3 +1,10 @@
 [submodule "Assignment1/external/opencv"]
 	path = Assignment1/external/opencv
 	url = https://github.com/opencv/opencv.git
+[submodule "Assignment1/external/glfw"]
+	path = Assignment1/external/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "Assignment1/external/glad"]
+	path = Assignment1/external/glad
+	url = https://github.com/Dav1dde/glad.git
+	branch = glad2
