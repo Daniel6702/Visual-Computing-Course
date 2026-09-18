@@ -1,0 +1,2 @@
+The vertex shader converts the projected 2D pixel coordinates into OpenGL normalized device coordinates, 
+while the fragment shader determines the final color of the rendered lines.

@@ -49,3 +49,18 @@ vector<Point2f> project(vector<Point3f> points, Matx33d K) {
 
     return projected;
 }
+
+Matx44f get_projection_matrix(int width, int height) {
+    float f = 0.9f * width;
+    float near = 0.1f;
+    float far = 100.0f;
+
+    Matx44f P(
+        2*f/width, 0,           0,                         0,
+        0,        -2*f/height,  0,                         0,
+        0,         0,           (far+near)/(far-near),    (-2*far*near)/(far-near),
+        0,         0,           1,                         0
+    );
+
+    return P;
+}
