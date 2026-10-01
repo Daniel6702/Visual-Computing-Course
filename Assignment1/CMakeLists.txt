@@ -5,21 +5,34 @@ project(Assignment1 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# --------------------------------------------------
 # OpenCV
-
 set(OpenCV_DIR "${PROJECT_SOURCE_DIR}/external/opencv/build")
+
+if(NOT EXISTS "${OpenCV_DIR}/OpenCVConfig.cmake")
+    execute_process(
+        COMMAND ${CMAKE_COMMAND}
+            -S "${PROJECT_SOURCE_DIR}/external/opencv"
+            -B "${OpenCV_DIR}"
+            -DBUILD_LIST=core,imgproc,videoio
+            -DBUILD_TESTS=OFF
+            -DBUILD_PERF_TESTS=OFF
+            -DBUILD_EXAMPLES=OFF
+        COMMAND_ERROR_IS_FATAL ANY
+    )
+
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} --build "${OpenCV_DIR}" --parallel
+        COMMAND_ERROR_IS_FATAL ANY
+    )
+endif()
 
 find_package(OpenCV REQUIRED COMPONENTS
     core
     imgproc
-    highgui
     videoio
 )
 
-# --------------------------------------------------
 # GLFW
-
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -27,9 +40,7 @@ set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(external/glfw)
 
-# --------------------------------------------------
 # GLAD
-
 add_subdirectory(external/glad/cmake glad_cmake)
 
 glad_add_library(
@@ -39,9 +50,7 @@ glad_add_library(
     API gl:core=3.3
 )
 
-# --------------------------------------------------
 # Project files
-
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
