@@ -1,0 +1,6 @@
+Checkpoint 5:
+
+The live webcam image is captured with OpenCV and uploaded continuously to an OpenGL texture.
+The texture is rendered as a full-screen background, with the 3D cube rendered on top.
+Pressing space cycles between the original image, grayscale, blur, and edge detection.
+The cube still uses the model, view, and projection transformations.

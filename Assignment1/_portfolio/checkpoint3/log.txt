@@ -1,0 +1,5 @@
+First, the 3D shape is defined by a set of points (vertices).
+The points are then transformed using transformation matrices to translate, rotate, or scale the shape.
+Applying the same transformation to every point makes the whole shape move together.
+Finally, the 3D points are projected onto the 2D camera image using the camera matrix.
+Lines are drawn between those 2d points to draw the cube shape.

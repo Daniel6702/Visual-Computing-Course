@@ -12,12 +12,28 @@ Press `Space` to cycle through the filters.
 
 OpenCV, GLFW, and GLAD are included as submodules and built automatically.
 
-## Build
+## Get Source
+
+Clone the repository:
 
 ```bash
 git clone --recurse-submodules https://github.com/Daniel6702/Visual-Computing-Course.git
 
-cd Visual-Computing-Course/Assignment1/
+cd Visual-Computing-Course/
+```
+
+Or, if the repository is already provided, retrieve the submodules:
+
+```bash
+cd Visual-Computing-Course/
+
+git submodule update --init --recursive
+```
+
+## Build
+
+```bash
+cd Assignment1/
 
 cmake -S . -B build
 cmake --build build --parallel 4
@@ -30,6 +46,7 @@ Linux/macOS:
 ```bash
 ./build/Assignment1
 ```
+
 Windows:
 
 ```bash
