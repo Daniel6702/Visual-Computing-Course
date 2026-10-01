@@ -8,27 +8,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # OpenCV
 set(OpenCV_DIR "${PROJECT_SOURCE_DIR}/external/opencv/build")
 
-if(NOT EXISTS "${OpenCV_DIR}/OpenCVConfig.cmake")
-    execute_process(
-        COMMAND ${CMAKE_COMMAND}
-            -S "${PROJECT_SOURCE_DIR}/external/opencv"
-            -B "${OpenCV_DIR}"
-            -DBUILD_LIST=core,imgproc,videoio
-            -DBUILD_TESTS=OFF
-            -DBUILD_PERF_TESTS=OFF
-            -DBUILD_EXAMPLES=OFF
-        COMMAND_ERROR_IS_FATAL ANY
-    )
+execute_process(
+    COMMAND ${CMAKE_COMMAND}
+        -S "${PROJECT_SOURCE_DIR}/external/opencv"
+        -B "${OpenCV_DIR}"
+        -DCMAKE_BUILD_TYPE=Release
+        -DBUILD_LIST=core,imgproc,highgui,videoio
+        -DBUILD_TESTS=OFF
+        -DBUILD_PERF_TESTS=OFF
+        -DBUILD_EXAMPLES=OFF
+        -DBUILD_opencv_apps=OFF
+    COMMAND_ERROR_IS_FATAL ANY
+)
 
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} --build "${OpenCV_DIR}" --parallel
-        COMMAND_ERROR_IS_FATAL ANY
-    )
-endif()
+execute_process(
+    COMMAND ${CMAKE_COMMAND}
+        --build "${OpenCV_DIR}"
+        --parallel 8
+    COMMAND_ERROR_IS_FATAL ANY
+)
 
 find_package(OpenCV REQUIRED COMPONENTS
     core
     imgproc
+    highgui
     videoio
 )
 
