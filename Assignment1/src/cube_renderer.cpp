@@ -64,7 +64,9 @@ bool setup_cube(
 
 void update_cube(CubeRenderer& cube)
 {
-    cube.time += 0.05f;
+    float speed = 2.0f;
+
+    cube.time += 0.05f * speed;
 
     //rotate cube slightly each frame
     cube.points = rotate(cube.points, 0.04f, -0.06f, 0.0f);
@@ -72,9 +74,9 @@ void update_cube(CubeRenderer& cube)
     //move cube using sine waves
     cube.points = translate(
         cube.points,
-        sin(cube.time) * 0.05f,
-        sin(cube.time + 2 * CV_PI / 3) * 0.05f,
-        sin(cube.time + 4 * CV_PI / 3) * 0.2f
+        sin(cube.time) * 0.05f * speed,
+        sin(cube.time + 2 * CV_PI / 3) * 0.05f * speed,
+        sin(cube.time + 4 * CV_PI / 3) * 0.2f * speed
     );
 }
 
@@ -100,11 +102,11 @@ void draw_cube(const CubeRenderer& cube, const Matx44f& view, const Matx44f& pro
     glEnable(GL_DEPTH_TEST); //enable depth testing for 3D rendering
 
     glUseProgram(cube.shader);
-
+    
     //get transformation matrix locations
     GLint view_location = glGetUniformLocation(cube.shader, "view");
     GLint projection_location = glGetUniformLocation(cube.shader, "projection");
-
+    
     //send matrices to shader for projection and view transformations
     glUniformMatrix4fv(view_location, 1, GL_TRUE, view.val);
     glUniformMatrix4fv(projection_location, 1, GL_TRUE, projection.val);
