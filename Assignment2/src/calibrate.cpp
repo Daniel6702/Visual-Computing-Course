@@ -61,7 +61,8 @@ Calibration calibrate(string imagePath)
         imageSize, 
         result.cameraMatrix, 
         result.distCoeffs, 
-        rvecs, tvecs);
+        rvecs, tvecs
+    );
 
     cout << "\nCalibration images: " << imgpoints.size() << endl;
     cout << "Camera matrix:\n" << result.cameraMatrix << endl;

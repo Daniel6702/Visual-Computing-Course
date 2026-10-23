@@ -6,8 +6,8 @@
 using namespace cv;
 using namespace std;
 
-bool DO_CALIBRATION = true;
-bool LIVE = true;
+bool DO_CALIBRATION = false;
+bool LIVE = false;
 int CHECKPOINT = 2;
 
 int main()
@@ -18,16 +18,16 @@ int main()
     //do or load calibration
     Calibration calibration;
     if (DO_CALIBRATION) {
-        calibration = calibrate("Assignment2/imgs/*");
+        calibration = calibrate("../imgs/calibration/*");
 
-        saveCalibration("Assignment2/calibration.yml", calibration);
+        saveCalibration("../calibration.yml", calibration);
 
     } else {
-        calibration = loadCalibration("Assignment2/calibration.yml");
+        calibration = loadCalibration("../calibration.yml");
     }
 
     VideoCapture cap(0);
-    if (!cap.isOpened()) return -1;
+    //if (!cap.isOpened()) return -1;
 
     Size boardSize(7, 6);
     float squareSize = 25.0f; //25 mm (i.e. coordinates are in mm)
@@ -47,7 +47,7 @@ int main()
         if (LIVE) {
             cap >> frame; //capture frame
         } else {
-            frame = imread("Assignment2/imgs/picture_2026-10-22_21-20-01.jpg");
+            frame = imread("../imgs/calibration/picture_2026-10-22_21-20-01.jpg");
         }
         
         Mat gray;
@@ -56,8 +56,7 @@ int main()
         vector<Point2f> corners;
         bool found = findChessboardCorners(gray, boardSize, corners); //2d position / camera position of all inner corners
 
-        if (found)
-        {
+        if (found) {
 
             //estimate checkerboard pose. i.e. translation and rotation relative to camera
             //based on detected corner position and known relative positions of corners.
@@ -133,7 +132,7 @@ but could be plausible. pretty shit camera, and it is relativly wide angle
 } else if (CHECKPOINT == 2) {
 
     //load reference image
-    Mat reference = imread("Assignment2/cookbook3.jpg");
+    Mat reference = imread("../imgs/target.png");
 
     //create SIFT detector and descriptor
     Ptr<SIFT> sift = SIFT::create();
@@ -146,10 +145,10 @@ but could be plausible. pretty shit camera, and it is relativly wide angle
     Mat referenceDescriptors;
     sift->detectAndCompute(referenceGray, noArray(), referenceKeypoints, referenceDescriptors);
 
-    // Open webcam
+    //open webcam
     VideoCapture cap(0);
-    if (!cap.isOpened()) return -1;
 
+    //init matches
     BFMatcher matcher(NORM_L2);
 
     Mat frame;
@@ -175,7 +174,7 @@ but could be plausible. pretty shit camera, and it is relativly wide angle
         vector<DMatch> goodMatches;
         for (vector<DMatch> match : matches) { //for each of the reference descriptor matches
             //if the best of the two matches is twice as good (less then half the distance) of the second, then we may assume it is a good not ambiguous match
-            if (match[0].distance < 0.4f * match[1].distance) { 
+            if (match[0].distance < 0.5f * match[1].distance) { 
                 goodMatches.push_back(match[0]);
             }
         }
