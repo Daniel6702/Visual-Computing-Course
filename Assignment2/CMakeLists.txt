@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(Assignment1 LANGUAGES CXX)
+project(Assignment2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,8 +16,8 @@ find_package(OpenCV REQUIRED COMPONENTS
     calib
     geometry
     features
-)
-
+)  
+ 
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
