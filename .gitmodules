@@ -1,13 +1,14 @@
-[submodule "Assignment1/external/opencv"]
-	path = Assignment1/external/opencv
-	url = https://github.com/opencv/opencv.git
-	shallow = true
-[submodule "Assignment1/external/glfw"]
-	path = Assignment1/external/glfw
+[submodule "external/glfw"]
+	path = external/glfw
 	url = https://github.com/glfw/glfw.git
 	shallow = true
-[submodule "Assignment1/external/glad"]
-	path = Assignment1/external/glad
+[submodule "external/glad"]
+	path = external/glad
 	url = https://github.com/Dav1dde/glad.git
 	branch = glad2
+	shallow = true
+[submodule "external/opencv"]
+	path = external/opencv
+	url = https://github.com/opencv/opencv.git
+	branch = 5.x
 	shallow = true

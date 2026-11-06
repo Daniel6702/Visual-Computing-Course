@@ -36,15 +36,15 @@ int main()
     //background
     BackgroundRenderer background;
     setup_background(background, frame,
-        "shaders/background.vert",
-        "shaders/background.frag"
+        "../shaders/background.vert",
+        "../shaders/background.frag"
     );
 
     // Cube
     CubeRenderer cube;
     setup_cube(cube,
-        "shaders/cube.vert",
-        "shaders/cube.frag"
+        "../shaders/cube.vert",
+        "../shaders/cube.frag"
     );
 
     //view camera matrix

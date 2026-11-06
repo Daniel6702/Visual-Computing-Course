@@ -27,9 +27,9 @@ int checkpoint3() {
 
     vector<Point2f> referenceCorners = {
         {0, 0},
-        {reference.cols, 0},
-        {reference.cols, reference.rows},
-        {0, reference.rows}
+        {(float)reference.cols, 0},
+        {(float)reference.cols, (float)reference.rows},
+        {0, (float)reference.rows}
     };
 
     //create SIFT detector and descriptor

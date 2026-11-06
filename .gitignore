@@ -1,6 +1,8 @@
 # Prerequisites
+Assignment1/_portfolio/
 Assignment2/_portfolio/
-Assignment2/external
+external/opencv-previous/
+external/opencv-assignment1-backup/
 *.d
 .vscode
 

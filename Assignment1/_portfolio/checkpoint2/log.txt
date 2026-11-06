@@ -1,5 +1,0 @@
-Added grayscale filter. Simply averages the color channel values to compute the "new" gray value.
-Added methods for applying 2d kernels to the image.
-Added a gaussian blur filter. Applies a 5x5 normalized gaussian shaped kernel to the image.
-Added a simple edge detection filter. first grayscale -> blur -> sharpening / edge kernel
-The four images (including original) are combined into a 2x2 grid. Then displayed.
