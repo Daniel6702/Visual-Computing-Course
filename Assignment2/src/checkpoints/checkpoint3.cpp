@@ -12,12 +12,12 @@ int checkpoint3() {
     //load calibration
     Calibration calibration = loadCalibration("../calibration.yml");
     //load target image
-    Mat reference = imread("../imgs/cookbook3.jpg");
+    Mat reference = imread("../imgs/target.png");
 
     //physical target dimensions in mm
-    float targetWidth = 190.0f; //210
-    float targetHeight = 250.0f; //210
-
+    float targetWidth = 70.0f; //210
+    float targetHeight = 70.0f; //210
+    
     vector<Point3f> objectCorners = {
         {0, 0, 0}, 
         {targetWidth, 0, 0},
@@ -64,8 +64,8 @@ int checkpoint3() {
         sift->detectAndCompute(gray, noArray(), frameKeypoints, frameDescriptors);
 
         //we need atleast two descriptions from the frme
-        if (!frameDescriptors.empty() && frameDescriptors.rows >= 2)
-        {
+        if (!frameDescriptors.empty() && frameDescriptors.rows >= 2) {
+
             //match descriptors between reference and webcame frame
             //brute force approach, find distance to all, select top k
             int k = 2;
@@ -77,7 +77,7 @@ int checkpoint3() {
             //filter away ambiguous matches
             for (vector<DMatch> match : matches) {
                 //if the best of the two matches is twice as good (less then half the distance) of the second, then we may assume it is a good not ambiguous match
-                if (match[0].distance < 0.5f * match[1].distance) { 
+                if (match[0].distance < 0.75f * match[1].distance) { 
                     //save the 2d location of that descriptor in both the reference image and the frame image. correct?
                     referencePoints.push_back(
                         referenceKeypoints[match[0].queryIdx].pt
@@ -93,15 +93,15 @@ int checkpoint3() {
             if (referencePoints.size() >= 4) {
 
 
-                // Estimate homography and reject outliers using RANSAC
+                // estimate homography and reject outliers using RANSAC
                 Mat inliers; //mask of accepted matches
                 //the referencePoints and framePoints correspond to the same positions on the same object
                 //based on their differences we can determine the transformation (homography) required to get those positions in the frame object
                 Mat homography = findHomography(referencePoints, framePoints, RANSAC, 3.0, inliers);
                 //RANSAC rejects the matches that are not consitent with estimated homography
-
-                if (!homography.empty() && countNonZero(inliers) >= 4)
-                {
+                
+                if (!homography.empty() && countNonZero(inliers) >= 4) {
+                    
                     // Project reference corners into camera image
                     vector<Point2f> imageCorners;
                     //referenceCorners is the approximate position of the four corners of the object in the reference image
@@ -114,7 +114,7 @@ int checkpoint3() {
                     Mat rvec, tvec;
                     bool success = solvePnP(objectCorners, imageCorners, calibration.cameraMatrix, calibration.distCoeffs, rvec, tvec);
                     //now we esssentially have an estimate of the 3d position/rotation in world space of the book
-
+                    
                     if (success) {
   
                         vector<Point3f> axes = { ////define the four relative points for the coordinate  system
