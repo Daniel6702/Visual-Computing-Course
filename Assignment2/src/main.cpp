@@ -8,9 +8,9 @@ using namespace cv;
 using namespace std;
 
 //SETTINGS
-bool DO_CALIBRATION = false;
+bool DO_CALIBRATION = true;
 bool LIVE = false;
-int CHECKPOINT = 3;
+int CHECKPOINT = 1;
 
 int main() {
     if (CHECKPOINT == 1) {

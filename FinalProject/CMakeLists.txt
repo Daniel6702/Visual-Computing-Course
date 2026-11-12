@@ -38,6 +38,7 @@ find_package(OpenCV REQUIRED COMPONENTS
     imgproc
     highgui
     videoio
+    features
 )
 
 # GLFW

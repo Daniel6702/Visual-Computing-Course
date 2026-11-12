@@ -11,9 +11,9 @@ int checkpoint1(bool DO_CALIBRATION, bool LIVE) {
     //do or load calibration
     Calibration calibration;
     if (DO_CALIBRATION) {
-        calibration = calibrate("../imgs/calibration/*");
+        calibration = calibrate("../imgs/pixel9_10_1080p/*");
 
-        saveCalibration("../calibration.yml", calibration);
+        saveCalibration("../calibration_p_10.yml", calibration);
 
     } else {
         calibration = loadCalibration("../calibration.yml");
@@ -40,7 +40,7 @@ int checkpoint1(bool DO_CALIBRATION, bool LIVE) {
         if (LIVE) {
             cap >> frame; //capture frame
         } else {
-            frame = imread("../imgs/calibration/picture_2026-10-22_21-20-01.jpg");
+            frame = imread("../imgs/pixel9_10_1080p/my_photo-7.jpg");
         }
         
         Mat gray;

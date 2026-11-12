@@ -3,6 +3,9 @@ Assignment1/_portfolio/
 Assignment2/_portfolio/
 external/opencv-previous/
 external/opencv-assignment1-backup/
+Assignment2/imgs/pixel9_05_360p
+Assignment2/imgs/pixel9_05_1080p
+Assignment2/imgs/pixel9_10_1080p
 *.d
 .vscode
 
